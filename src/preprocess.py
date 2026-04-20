@@ -77,14 +77,14 @@ def main() -> None:
 
     # create windows
     window_size = 24
-    X_train, _ = create_windows(
+    X_train, y_train = create_windows(
         train_prices,
         train_df['is_anomaly'].to_numpy(),
         window_size,
     )
     X_test, y_test = create_windows(
         test_prices,
-        test_df['is_anomaly'].to_numpy(),
+        test_df['is_anomaly'].values,
         window_size,
     )
 
@@ -101,7 +101,9 @@ def main() -> None:
  
     np.save(out_dir / "X_train.npy", X_train)
     np.save(out_dir / "X_test.npy", X_test)
+    np.save(out_dir / 'y_train.npy', y_train)
     np.save(out_dir / "y_test.npy", y_test)
+    
  
     with open(out_dir / "scaler.pkl", "wb") as f:
         pickle.dump(scaler, f)
