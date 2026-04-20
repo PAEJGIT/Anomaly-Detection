@@ -8,17 +8,17 @@ An LSTM autoencoder trained on electricity price time series data that detects a
 
 ## Why this project
 
-Energy systems produce continuous streams of sensor and market data where anomalies — price spikes, demand surges, equipment faults — need to be detected quickly and reliably. This project demonstrates a complete anomaly detection pipeline: from data generation and model training to a deployable REST API.
+Energy systems produce continuous streams of sensor and market data where anomalies like price spikes, demand surges, equipment faults, need to be detected quickly and reliably. This project demonstrates a complete anomaly detection pipeline: from data generation and model training to a deployable REST API.
 
-The approach generalises beyond energy prices to any system with a defined "normal" behaviour — cooling systems, particle detector readings, network traffic, or infrastructure monitoring.
+The approach generalises beyond energy prices to any system with a defined "normal" behaviour, cooling systems, particle detector readings, network traffic, or infrastructure monitoring.
 
 ## How it works
 
 The model is an LSTM autoencoder that learns to reconstruct normal electricity price patterns. It compresses a 24-hour price window into a compact hidden representation and reconstructs it. Windows that deviate from learned patterns produce high reconstruction error, which serves as the anomaly signal.
 
-1. **Train on normal data only** — the autoencoder learns what typical daily price curves look like
-2. **Set a threshold** — the 95th percentile of training reconstruction errors defines the boundary of "normal"
-3. **Flag anomalies** — any window with reconstruction error above the threshold is flagged
+1. **Train on normal data only** the autoencoder learns what typical daily price curves look like
+2. **Set a threshold** the 95th percentile of training reconstruction errors defines the boundary of "normal"
+3. **Flag anomalies** any window with reconstruction error above the threshold is flagged
 
 ## Results
 
@@ -114,7 +114,7 @@ Response:
 
 - **Data**: 8,760 hours (one year) of synthetic electricity spot prices modelled on Nordic/Danish market structure with daily and weekly seasonality, Gaussian noise, and 2% injected anomaly spikes
 - **Preprocessing**: MinMaxScaler fitted on training split only (no data leakage), sliding windows of 24 hours
-- **Model**: LSTM autoencoder — encoder compresses 24 timesteps into a 32-dimensional hidden state, decoder reconstructs from it
+- **Model**: LSTM autoencoder, encoder compresses 24 timesteps into a 32-dimensional hidden state, decoder reconstructs from it
 - **Training**: 50 epochs, batch size 64, Adam optimiser, MSE loss, trained on normal windows only
 - **Threshold**: 95th percentile of training reconstruction errors
 - **API**: FastAPI with `/predict` and `/health` endpoints
